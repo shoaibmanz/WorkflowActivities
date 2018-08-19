@@ -21,31 +21,31 @@ namespace DataTableActivities.Designer
     /// <summary>
     /// Interaction logic for NewColumnDialog.xaml
     /// </summary>
-    public partial class NewColumnDialog : Window, INotifyPropertyChanged
+    public partial class NewColumnDialog : INotifyPropertyChanged
     {
-        private Type _dateType;
-
-        private bool _autoIncrement;
-
-        private DataTable _dataTable;
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         public string ColumnName
         {
-            get;
-            set;
+            get
+            {
+                return this.dataColumn.ColumnName;
+            }
+            set
+            {
+                this.dataColumn.ColumnName = value;
+            }
         }
 
         public Type DateType
         {
             get
             {
-                return this._dateType;
+                return this.dataColumn.DataType;
             }
             set
             {
-                this._dateType = value;
+                this.dataColumn.DataType = value;
                 this.OnNotifyPropertyChanged("DateType");
                 this.OnNotifyPropertyChanged("IsStringColumn");
                 this.OnNotifyPropertyChanged("CanAutoIncrement");
@@ -54,19 +54,25 @@ namespace DataTableActivities.Designer
 
         public bool AllowDBNull
         {
-            get;
-            set;
+            get
+            {
+                return this.dataColumn.AllowDBNull;
+            }
+            set
+            {
+                this.dataColumn.AllowDBNull = value;
+            }
         }
 
         public bool AutoIncrement
         {
             get
             {
-                return this._autoIncrement;
+                return this.dataColumn.AutoIncrement;
             }
             set
             {
-                this._autoIncrement = value;
+                this.dataColumn.AutoIncrement = value;
                 this.OnNotifyPropertyChanged("AutoIncrement");
             }
         }
@@ -81,20 +87,45 @@ namespace DataTableActivities.Designer
 
         public bool Unique
         {
-            get;
-            set;
+            get
+            {
+                return this.dataColumn.Unique;
+            }
+            set
+            {
+                this.dataColumn.Unique = value;
+            }
         }
 
         public object DefaultValue
         {
-            get;
-            set;
+            get
+            {
+                return this.dataColumn.DefaultValue;
+            }
+            set
+            {
+                if (this.dataColumn.DataType.Equals(value.GetType()))
+                {
+                    MessageBox.Show("Error: Invalid default value type with this column type");
+                }
+                else
+                {
+                    this.dataColumn.DefaultValue = value;
+                }
+            }
         }
 
         public int MaxLength
         {
-            get;
-            set;
+            get
+            {
+                return this.dataColumn.MaxLength;
+            }
+            set
+            {
+
+            }
         }
 
         public bool IsStringColumn
@@ -113,19 +144,34 @@ namespace DataTableActivities.Designer
             }
         }
 
-        public NewColumnDialog(ModelItem ownerActivity, DataTable dataTable)
+        public DataColumn dataColumn
         {
-            this._dataTable = dataTable;
-            this.MaxLength = -1;
+            get;
+            set;
+        }
+
+        public bool SaveChanges
+        {
+            get;
+            set;
+        }
+
+
+        public NewColumnDialog(ModelItem ownerActivity, DataColumn dataColumn)
+        {
+
+            this.dataColumn = dataColumn;
+            this.MaxLength = 0;
             this.DateType = typeof(string);
             this.AllowDBNull = true;
-            this.InitializeComponent();
+            this.InitializeComponent();            
             this.TypePresenter.Context = ownerActivity.GetEditingContext();
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            base.Close();
+            this.SaveChanges = false;
+            this.Close();
         }
 
         private void OkButton_Click(object sender, RoutedEventArgs e)
@@ -134,29 +180,20 @@ namespace DataTableActivities.Designer
             {
                 if (string.IsNullOrWhiteSpace(this.ColumnName))
                 {
-                    throw new ArgumentException("Column Name is not set");
-                }
-                DataColumn dataColumn = new DataColumn(this.ColumnName, this.DateType);
-                dataColumn.AllowDBNull = this.AllowDBNull;
-                dataColumn.Unique = this.Unique;
-                if (this.CanAutoIncrement)
-                {
-                    dataColumn.AutoIncrement = this.AutoIncrement;
+                    throw new ArgumentException("Please enter a column name");
                 }
                 else if (this.DefaultValue != null && !string.IsNullOrWhiteSpace(this.DefaultValue.ToString()))
                 {
                     dataColumn.DefaultValue = Convert.ChangeType(this.DefaultValue, this.DateType);
                 }
-                if (this.DateType.Equals(typeof(string)))
-                {
-                    dataColumn.MaxLength = this.MaxLength;
-                }
+
                 if (dataColumn.DataType != this.DateType)
                 {
                     throw new InvalidOperationException("Column options incompatible with desired date type");
                 }
-                this._dataTable.Columns.Add(dataColumn);
-                base.Close();
+
+                this.SaveChanges = true;
+                this.Close();
             }
             catch (Exception arg_E3_0)
             {

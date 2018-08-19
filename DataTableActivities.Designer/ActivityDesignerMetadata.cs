@@ -19,7 +19,9 @@ namespace DataTableActivities.Designer
         {
 
             var builder = new AttributeTableBuilder();
-          
+
+            AddDataColumnDesigner.RegisterMetadata(builder);
+            AddDataRowDesigner.RegisterMetadata(builder);
             OutputDataTableDesigner.RegisterMetadata(builder);
             RemoveDataColumnDesigner.RegisterMetadata(builder);
             RemoveDataRowDesigner.RegisterMetadata(builder);

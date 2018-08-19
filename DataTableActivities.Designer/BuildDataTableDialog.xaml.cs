@@ -83,10 +83,10 @@ namespace DataTableActivities.Designer
 
         private void AddColumnButtonClick(object sender, RoutedEventArgs e)
         {
-            new NewColumnDialog(this._activityModel, this.DataTable)
-            {
-                WindowStartupLocation = WindowStartupLocation.CenterScreen
-            }.ShowDialog();
+            //new NewColumnDialog(this._activityModel, this.DataTable)
+            //{
+            //    WindowStartupLocation = WindowStartupLocation.CenterScreen
+            //}.ShowDialog();
             this.UpdateItemsSource();
         }
 

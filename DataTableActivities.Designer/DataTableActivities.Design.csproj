@@ -48,8 +48,11 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddDataColumn.xaml.cs">
-      <DependentUpon>AddDataColumn.xaml</DependentUpon>
+    <Compile Include="AddDataColumnDesigner.xaml.cs">
+      <DependentUpon>AddDataColumnDesigner.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AddDataRowDesigner.xaml.cs">
+      <DependentUpon>AddDataRowDesigner.xaml</DependentUpon>
     </Compile>
     <Compile Include="BuildDataTableDesigner.xaml.cs">
       <DependentUpon>BuildDataTableDesigner.xaml</DependentUpon>
@@ -75,7 +78,12 @@
     <Compile Include="RemoveValuesNewColumnsDialog.xaml.cs">
       <DependentUpon>RemoveValuesNewColumnsDialog.xaml</DependentUpon>
     </Compile>
-    <Page Include="AddDataColumn.xaml">
+    <Compile Include="TypeConverters.cs" />
+    <Page Include="AddDataColumnDesigner.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddDataRowDesigner.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -125,7 +133,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Metadata.cs" />
+    <Compile Include="ActivityDesignerMetadata.cs" />
     <Compile Include="OutputDataTableDesigner.xaml.cs">
       <DependentUpon>OutputDataTableDesigner.xaml</DependentUpon>
     </Compile>

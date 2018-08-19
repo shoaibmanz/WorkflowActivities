@@ -10,8 +10,12 @@
         Title="New Column" Height="350" Width="400"
         DataContext="{Binding RelativeSource={RelativeSource Self}}">
     <Window.Resources>
+        
+        
         <mtovc:ModelToObjectValueConverter x:Key="modelItemConverter" />
         <mtovc:ArgumentToExpressionConverter x:Key="ArgumentToExpressionConverter" />
+        <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+
         <Style x:Key="DefaultValueStyle">
             <Setter Property="UIElement.IsEnabled" Value="True" />
             <Style.Triggers>
@@ -25,11 +29,14 @@
             </Style.Triggers>
         </Style>
     </Window.Resources>
+    
     <DockPanel LastChildFill="True" Margin="10">
-        <DockPanel Margin="0,20,0,0" DockPanel.Dock="Bottom" HorizontalAlignment="Right">
-            <Button Content="Cancel" DockPanel.Dock="Right" Width="65" Click="CancelButton_Click" />
-            <Button Content="OK" DockPanel.Dock="Right" Width="65" Margin="10,0" Click="OkButton_Click" />
-        </DockPanel>
+
+        <WrapPanel DockPanel.Dock="Bottom" HorizontalAlignment="Center">
+            <Button Content="OK" Width="65" Margin="10" Click="OkButton_Click" />
+            <Button Content="Cancel" Margin="10" Width="65" Click="CancelButton_Click" />
+        </WrapPanel>
+
         <Grid Margin="0,10,0,0" DockPanel.Dock="Top">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="130" />
@@ -49,20 +56,62 @@
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
+            
+            <!-- Column Name-->
             <Label Content="Column Name" Grid.Column="0" Grid.Row="0" />
-            <TextBox Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" ToolTip="The name of the column." Text="{Binding ColumnName}" />
+            <TextBox Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" ToolTip="Column Name" Text="{Binding ColumnName}" />
+            
+            <!-- Data Type -->
             <Label Content="Data Type" Grid.Column="0" Grid.Row="2" />
-            <tp:TypePresenter Name="TypePresenter" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" ToolTip="Type of data stored in the column." AllowNull="False" BrowseTypeDirectly="False" Label="Choose type" Context="{Binding Context}" Type="{Binding Path=DateType, Mode=TwoWay, Converter={StaticResource modelItemConverter}}" />
-            <Label Content="Allow Null" Grid.Column="0" Grid.Row="4" />
-            <CheckBox Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" ToolTip="Indicates whether null values are allowed in this column for rows that belong to the table." IsChecked="{Binding AllowDBNull}" />
-            <Label Content="Auto Increment" Grid.Column="0" Grid.Row="6" IsEnabled="{Binding CanAutoIncrement}" />
-            <CheckBox Grid.Column="1" Grid.Row="6" VerticalAlignment="Center" ToolTip="Indicates whether the column automatically increments the value of the column for new rows added to the table." IsChecked="{Binding AutoIncrement}" IsEnabled="{Binding CanAutoIncrement}" />
-            <Label Content="Default Value" Grid.Column="0" Grid.Row="8" Style="{StaticResource DefaultValueStyle}" />
-            <TextBox Grid.Column="1" Grid.Row="8" Style="{StaticResource DefaultValueStyle}" VerticalAlignment="Center" ToolTip="The default value for the column when you are creating new rows." Text="{Binding DefaultValue}" />
-            <Label Content="Unique" Grid.Column="0" Grid.Row="10" />
-            <CheckBox Grid.Column="1" Grid.Row="10" VerticalAlignment="Center" ToolTip="Indicates whether the values in each row of the column must be unique." IsChecked="{Binding Unique}" />
-            <Label Content="MaxLength" Grid.Column="0" Grid.Row="12" Margin="0,10,0,0" IsEnabled="{Binding IsStringColumn}" />
-            <TextBox Grid.Column="1" Grid.Row="12" Margin="0,10,0,0" VerticalAlignment="Center" ToolTip="The maximum length of the column in characters. If the column has no maximum length, the value is –1." Text="{Binding MaxLength}" IsEnabled="{Binding IsStringColumn}" />
+            <tp:TypePresenter Name="TypePresenter" Grid.Column="1" Grid.Row="2" 
+                              VerticalAlignment="Center" 
+                              ToolTip="Data type of values stored." AllowNull="False"
+                              BrowseTypeDirectly="False" Label="Choose type" Context="{Binding Context}" Type="{Binding Path=DateType, Mode=TwoWay, Converter={StaticResource modelItemConverter}}" />
+            
+            
+            <!-- Default Value-->
+            <Label Content="Default Value" Grid.Column="0" Grid.Row="4" 
+                   Style="{StaticResource DefaultValueStyle}" />
+            <TextBox Grid.Column="1" Grid.Row="4" 
+                     Style="{StaticResource DefaultValueStyle}"
+                     VerticalAlignment="Center" ToolTip="Default value applied to a newly created row." 
+                     Text="{Binding DefaultValue}" />
+            
+            
+            <!--Unique-->
+            <Label Content="Unique" Grid.Column="0" Grid.Row="6" />
+            <CheckBox Grid.Column="1" Grid.Row="6" 
+                      VerticalAlignment="Center" 
+                      ToolTip="Should the entries in this column be unique?" 
+                      IsChecked="{Binding Unique}" />
+
+            <!-- DB Null -->
+            <Label Content="Allow DB Null" Grid.Column="0" Grid.Row="8" />
+            <CheckBox Grid.Column="1" Grid.Row="8" 
+                      VerticalAlignment="Center" 
+                      ToolTip="Should the entries in this column allow null values?" 
+                      IsChecked="{Binding AllowDBNull}" />
+            
+            
+            <!--Max Length-->
+            <Label Content="MaxLength" Grid.Column="0" Grid.Row="10"
+                   Visibility="{Binding IsStringColumn, Converter={StaticResource BoolToVisibilityConverter}}" />
+            <TextBox Grid.Column="1" Grid.Row="10" 
+                     VerticalAlignment="Center" 
+                     ToolTip="Maximum number of characters in each row. (-1 for no limit)" 
+                     Text="{Binding MaxLength}" 
+                     Visibility="{Binding IsStringColumn, Converter={StaticResource BoolToVisibilityConverter}}" />
+            
+            
+            <!--Auto Increment-->
+            <Label Content="Auto Increment" Grid.Column="0" Grid.Row="10" 
+                   Visibility="{Binding CanAutoIncrement, Converter={StaticResource BoolToVisibilityConverter}}" />
+            
+            <CheckBox Grid.Column="1" Grid.Row="10" VerticalAlignment="Center" 
+                      ToolTip="Should this column auto increment for every new row?" 
+                      IsChecked="{Binding AutoIncrement}" 
+                      Visibility="{Binding CanAutoIncrement, Converter={StaticResource BoolToVisibilityConverter}}" />
+            
         </Grid>
     </DockPanel>
 </Window>

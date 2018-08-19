@@ -44,7 +44,7 @@ namespace ActivityHost
 
             Toolbox.Categories.Add(new ToolboxCategory("Custom activities"));
 
-            //Toolbox.Categories[1].Add(new ToolboxItemWrapper(typeof(AddDataColumn)));
+            Toolbox.Categories[1].Add(new ToolboxItemWrapper(typeof(AddDataColumn)));
             Toolbox.Categories[1].Add(new ToolboxItemWrapper(typeof(AddDataRow)));            
             Toolbox.Categories[1].Add(new ToolboxItemWrapper(typeof(BuildDataTable)));
             Toolbox.Categories[1].Add(new ToolboxItemWrapper(typeof(ClearDataTable)));
@@ -59,6 +59,7 @@ namespace ActivityHost
             WorkflowDesigner wd = new WorkflowDesigner();
             wd.Load(new Sequence());
             DesignerBorder.Child = wd.View;
+            
             PropertyBorder.Child = wd.PropertyInspectorView;
 
         }

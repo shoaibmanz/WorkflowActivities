@@ -29,7 +29,6 @@ namespace DataTableActivities.Designer
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
             ModelItem.Properties["ColumnIndex"].SetValue(null);
             ModelItem.Properties["ColumnName"].SetValue(null);
             ModelItem.Properties["ColumnObject"].SetValue(null);
@@ -42,27 +41,5 @@ namespace DataTableActivities.Designer
         }
     }
 
-    public class OptionsToVisibilityConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            
-            if (value != null && parameter != null)
-            {
-                string param = parameter as string;
 
-                if (((int)value).ToString() == param)
-                {
-                    return Visibility.Visible;
-                }
-            }
-
-            return Visibility.Hidden;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
 }
