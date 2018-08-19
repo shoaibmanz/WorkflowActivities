@@ -1,0 +1,262 @@
+﻿<Window x:Class="DataTableActivities.Designer.BuildDataTableDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DataTableActivities.Designer"
+        mc:Ignorable="d"
+        Title="BuildDataTableDialog" Height="350" Width="500" DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    <Window.Resources>
+        <local:DataTableColumnToTypeConverter x:Key="dataTableColumnConverter" />
+        <local:DataTableColumnToPropertiesConverter x:Key="dataTablePropertiesConverter" />
+
+        <Style x:Key="RemoveButtonStyle" TargetType="{x:Type Button}">
+            <Style.Resources>
+                <SolidColorBrush x:Key="TabItemRemoveButtonNormalBackgroundBrush" Color="#00000000" />
+                <SolidColorBrush x:Key="TabItemRemoveButtonNormalBorderBrush" Color="#FFFFFFFF" />
+                <SolidColorBrush x:Key="TabItemRemoveButtonNormalForegroundBrush" Color="#FF8f949b" />
+                <SolidColorBrush x:Key="TabItemRemoveButtonHoverBackgroundBrush" Color="#FFc13535" />
+                <SolidColorBrush x:Key="TabItemRemoveButtonHoverForegroundBrush" Color="#FFf9ebeb" />
+                <SolidColorBrush x:Key="TabItemRemoveButtonPressedBackgroundBrush" Color="#FF431e20" />
+                <SolidColorBrush x:Key="TabItemRemoveButtonPressedBorderBrush" Color="#FF110033" />
+                <SolidColorBrush x:Key="TabItemRemoveButtonPressedForegroundBrush" Color="#FFf9ebeb" />
+            </Style.Resources>
+            <Setter Property="UIElement.SnapsToDevicePixels" Value="False" />
+            <Setter Property="FrameworkElement.Cursor" Value="Hand" />
+            <Setter Property="UIElement.Focusable" Value="False" />
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid Background="#00FFFFFF">
+                            <Ellipse Name="backgroundEllipse" />
+                            <Path Name="ButtonPath" Margin="3" Stroke="{StaticResource TabItemRemoveButtonNormalForegroundBrush}" StrokeThickness="1.5" StrokeStartLineCap="Square" StrokeEndLineCap="Square" Stretch="Uniform" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <Path.Data>
+                                    <PathGeometry>
+                                        <PathGeometry.Figures>
+                                            <PathFigure StartPoint="0,0">
+                                                <LineSegment Point="25,25" />
+                                            </PathFigure>
+                                            <PathFigure StartPoint="0,25">
+                                                <LineSegment Point="25,0" />
+                                            </PathFigure>
+                                        </PathGeometry.Figures>
+                                    </PathGeometry>
+                                </Path.Data>
+                            </Path>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="UIElement.IsMouseOver" Value="True">
+                                <Setter TargetName="backgroundEllipse" Value="{StaticResource TabItemRemoveButtonHoverBackgroundBrush}" Property="Shape.Fill" />
+                                <Setter TargetName="ButtonPath" Value="{StaticResource TabItemRemoveButtonHoverForegroundBrush}" Property="Shape.Stroke" />
+                            </Trigger>
+                            <Trigger Property="UIElement.IsEnabled" Value="False">
+                                <Setter Property="UIElement.Visibility" Value="Collapsed" />
+                            </Trigger>
+                            <Trigger Property="ButtonBase.IsPressed" Value="True">
+                                <Setter TargetName="backgroundEllipse" Value="{StaticResource TabItemRemoveButtonPressedBackgroundBrush}" Property="Shape.Fill" />
+                                <Setter TargetName="backgroundEllipse" Value="{StaticResource TabItemRemoveButtonPressedBorderBrush}" Property="Shape.Stroke" />
+                                <Setter TargetName="ButtonPath" Value="{StaticResource TabItemRemoveButtonPressedForegroundBrush}" Property="Shape.Stroke" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="AddButtonStyle" TargetType="{x:Type Button}">
+            <Style.Resources>
+                <SolidColorBrush x:Key="TabItemRemoveButtonNormalBackgroundBrush" Color="#00000000" />
+                <SolidColorBrush x:Key="TabItemRemoveButtonNormalBorderBrush" Color="#FFFFFFFF" />
+                <SolidColorBrush x:Key="TabItemRemoveButtonNormalForegroundBrush" Color="#FF8f949b" />
+                <SolidColorBrush x:Key="TabItemRemoveButtonHoverBackgroundBrush" Color="#FFc13535" />
+                <SolidColorBrush x:Key="TabItemRemoveButtonHoverForegroundBrush" Color="#FFf9ebeb" />
+                <SolidColorBrush x:Key="TabItemRemoveButtonPressedBackgroundBrush" Color="#FF431e20" />
+                <SolidColorBrush x:Key="TabItemRemoveButtonPressedBorderBrush" Color="#FF110033" />
+                <SolidColorBrush x:Key="TabItemRemoveButtonPressedForegroundBrush" Color="#FFf9ebeb" />
+            </Style.Resources>
+            <Setter Property="UIElement.SnapsToDevicePixels" Value="False" />
+            <Setter Property="FrameworkElement.Cursor" Value="Hand" />
+            <Setter Property="UIElement.Focusable" Value="False" />
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid Background="#00FFFFFF">
+                            <Ellipse Name="backgroundEllipse" />
+                            <Path Name="ButtonPath" Margin="2" Stroke="{StaticResource TabItemRemoveButtonNormalForegroundBrush}" StrokeThickness="1.5" StrokeStartLineCap="Square" StrokeEndLineCap="Square" Stretch="Uniform" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <Path.Data>
+                                    <PathGeometry>
+                                        <PathGeometry.Figures>
+                                            <PathFigure StartPoint="0,0">
+                                                <LineSegment Point="25,25" />
+                                            </PathFigure>
+                                            <PathFigure StartPoint="0,25">
+                                                <LineSegment Point="25,0" />
+                                            </PathFigure>
+                                        </PathGeometry.Figures>
+                                    </PathGeometry>
+                                </Path.Data>
+                                <Path.LayoutTransform>
+                                    <RotateTransform Angle="45" />
+                                </Path.LayoutTransform>
+                            </Path>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="UIElement.IsMouseOver" Value="True">
+                                <Setter TargetName="backgroundEllipse" Value="{StaticResource TabItemRemoveButtonHoverBackgroundBrush}" Property="Shape.Fill" />
+                                <Setter TargetName="ButtonPath" Value="{StaticResource TabItemRemoveButtonHoverForegroundBrush}" Property="Shape.Stroke" />
+                            </Trigger>
+                            <Trigger Property="UIElement.IsEnabled" Value="False">
+                                <Setter Property="UIElement.Visibility" Value="Collapsed" />
+                            </Trigger>
+                            <Trigger Property="ButtonBase.IsPressed" Value="True">
+                                <Setter TargetName="backgroundEllipse" Value="{StaticResource TabItemRemoveButtonPressedBackgroundBrush}" Property="Shape.Fill" />
+                                <Setter TargetName="backgroundEllipse" Value="{StaticResource TabItemRemoveButtonPressedBorderBrush}" Property="Shape.Stroke" />
+                                <Setter TargetName="ButtonPath" Value="{StaticResource TabItemRemoveButtonPressedForegroundBrush}" Property="Shape.Stroke" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ColumnHeaderStyle" TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
+                        <Grid Margin="{TemplateBinding Control.Padding}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Border BorderThickness="0.5" Tag="{TemplateBinding ContentControl.Content}" Grid.Row="0" BorderBrush="{Binding VerticalGridLinesBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}">
+                                <DockPanel LastChildFill="True" Margin="5,0">
+                                    <Button Name="RemoveColumnButton" Click="RemoveColumnButton_Click" Margin="5,0,0,0" DockPanel.Dock="Right" Width="12" Height="12" ToolTip="Remove Column">
+                                        <Button.Style>
+                                            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource RemoveButtonStyle}">
+                                                <Setter Property="UIElement.Visibility" Value="Visible" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Border}}}" Value="{x:Null}">
+                                                        <Setter Property="UIElement.Visibility" Value="Collapsed" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
+                                    </Button>
+                                    <StackPanel DockPanel.Dock="Left" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <StackPanel.ToolTip>
+                                            <MultiBinding Converter="{StaticResource dataTablePropertiesConverter}">
+                                                <Binding />
+                                                <Binding ElementName="TableDataGrid" Path="DataContext" />
+                                            </MultiBinding>
+                                        </StackPanel.ToolTip>
+                                        <TextBlock Text="{TemplateBinding ContentControl.Content}" Margin="0,3,0,0" HorizontalAlignment="Center" TextWrapping="Wrap" />
+                                        <TextBlock DockPanel.Dock="Left" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap" Margin="0,3">
+                                            <TextBlock.Text>
+                                                <MultiBinding Converter="{StaticResource dataTableColumnConverter}">
+                                                    <Binding />
+                                                    <Binding ElementName="TableDataGrid" Path="DataContext" />
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                    </StackPanel>
+                                </DockPanel>
+                            </Border>
+                            <Thumb Name="PART_RightHeaderGripper" Grid.Column="1" HorizontalAlignment="Right" Width="1" BorderThickness="1" Cursor="SizeWE" BorderBrush="{Binding VerticalGridLinesBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="RowHeaderStyle" TargetType="{x:Type DataGridRowHeader}">
+            <Setter Property="FrameworkElement.Width" Value="25" />
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGridRowHeader}">
+                        <Grid Margin="{TemplateBinding Control.Padding}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Border BorderThickness="0.5" Grid.Row="0" BorderBrush="{Binding VerticalGridLinesBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}">
+                                <Button Click="RemoveRowButton_Click" Margin="2" VerticalAlignment="Center" HorizontalContentAlignment="Center" ToolTip="Remove Row" Width="12" Height="12" Style="{StaticResource RemoveButtonStyle}" />
+                            </Border>
+                            <Thumb Name="PART_BottomHeaderGripper" Grid.Row="1" VerticalAlignment="Bottom" Height="1" BorderThickness="1" Cursor="SizeNS" BorderBrush="{Binding VerticalGridLinesBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="DataGridStyle" TargetType="{x:Type DataGrid}">
+            <Setter Property="DataGrid.RowDetailsVisibilityMode" Value="VisibleWhenSelected" />
+            <Setter Property="ScrollViewer.CanContentScroll" Value="True" />
+            <Setter Property="ScrollViewer.PanningMode" Value="Both" />
+            <Setter Property="Stylus.IsFlicksEnabled" Value="False" />
+            <Setter Property="UIElement.Focusable" Value="True" />
+            <Setter Property="DataGrid.SelectionMode" Value="Single" />
+            <Setter Property="DataGrid.CanUserAddRows" Value="True" />
+            <Setter Property="DataGrid.CanUserDeleteRows" Value="True" />
+            <Setter Property="DataGrid.IsReadOnly" Value="False" />
+            <Setter Property="DataGrid.AutoGenerateColumns" Value="True" />
+            <Setter Property="DataGrid.CanUserResizeColumns" Value="True" />
+            <Setter Property="DataGrid.CanUserResizeRows" Value="True" />
+            <Setter Property="DataGrid.CanUserReorderColumns" Value="False" />
+            <Setter Property="DataGrid.CanUserSortColumns" Value="False" />
+            <Setter Property="DataGrid.RowHeaderStyle" Value="{StaticResource RowHeaderStyle}" />
+            <Setter Property="DataGrid.ColumnHeaderStyle" Value="{StaticResource ColumnHeaderStyle}" />
+            <Setter Property="Control.BorderThickness" Value="1" />
+            <Setter Property="Control.BorderBrush" Value="#FFD3D3D3" />
+            <Setter Property="DataGrid.HorizontalGridLinesBrush" Value="#FFD3D3D3" />
+            <Setter Property="DataGrid.VerticalGridLinesBrush" Value="#FFD3D3D3" />
+            <Setter Property="Control.Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" />
+            <Setter Property="Control.Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGrid}">
+                        <Border BorderBrush="{TemplateBinding Control.BorderBrush}" BorderThickness="{TemplateBinding Control.BorderThickness}" Background="{TemplateBinding Control.Background}" Padding="{TemplateBinding Control.Padding}" SnapsToDevicePixels="True">
+                            <ScrollViewer Name="DG_ScrollViewer" Focusable="False">
+                                <ScrollViewer.Template>
+                                    <ControlTemplate TargetType="{x:Type ScrollViewer}">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="25" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Button Click="AddColumnButtonClick" HorizontalAlignment="Center" VerticalAlignment="Center" DockPanel.Dock="Right" Width="12" Height="12" ToolTip="Add Column" Style="{StaticResource AddButtonStyle}" />
+                                            <DataGridColumnHeadersPresenter Name="PART_ColumnHeadersPresenter" Grid.Column="1" Visibility="{Binding HeadersVisibility, ConverterParameter={x:Static DataGridHeadersVisibility.Column}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                                            <ScrollContentPresenter Name="PART_ScrollContentPresenter" CanContentScroll="{TemplateBinding ScrollViewer.CanContentScroll}" Grid.ColumnSpan="2" Grid.Row="1" />
+                                            <ScrollBar Name="PART_VerticalScrollBar" Grid.Column="2" Maximum="{TemplateBinding ScrollViewer.ScrollableHeight}" Orientation="Vertical" Grid.Row="1" Visibility="{TemplateBinding ScrollViewer.ComputedVerticalScrollBarVisibility}" ViewportSize="{TemplateBinding ScrollViewer.ViewportHeight}" Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
+                                            <Grid Grid.Column="1" Grid.Row="2">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="{Binding NonFrozenColumnsViewportHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <ScrollBar Name="PART_HorizontalScrollBar" Grid.Column="1" Maximum="{TemplateBinding ScrollViewer.ScrollableWidth}" Orientation="Horizontal" Visibility="{TemplateBinding ScrollViewer.ComputedHorizontalScrollBarVisibility}" ViewportSize="{TemplateBinding ScrollViewer.ViewportWidth}" Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
+                                            </Grid>
+                                        </Grid>
+                                    </ControlTemplate>
+                                </ScrollViewer.Template>
+                                <ItemsPresenter SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
+                            </ScrollViewer>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="ItemsControl.IsGrouping" Value="True">
+                    <Setter Property="ScrollViewer.CanContentScroll" Value="False" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <DockPanel LastChildFill="True" Margin="10">
+        <DockPanel Margin="0,10,0,0" DockPanel.Dock="Bottom" HorizontalAlignment="Right" LastChildFill="True">
+            <Button Content="Cancel" DockPanel.Dock="Right" Width="65" Click="CancelButton_Click" />
+            <Button Name="OKButton" Content="OK" DockPanel.Dock="Right" Width="65" Margin="10,0" Click="OkButton_Click" />
+        </DockPanel>
+        <DataGrid Name="TableDataGrid" DockPanel.Dock="Top" MinColumnWidth="70" ColumnWidth="*" MinRowHeight="25" VerticalContentAlignment="Center" ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" Style="{StaticResource DataGridStyle}" />
+    </DockPanel>
+</Window>
