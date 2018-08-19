@@ -15,7 +15,60 @@
         <local:ArgumentTypeToComboBoxItemConverter x:Key="ArgumentToComboBoxConverter"/>
         <local:IntToVisibilityConverter x:Key="IntToVisibilityConverter"/>
         <local:OptionsToVisibilityConverter x:Key="OptionToVisibilityConverter"/>
-        
+
+
+        <Style x:Key="RemoveButtonStyle" TargetType="{x:Type Button}">
+            <Style.Resources>
+                <SolidColorBrush x:Key="TabItemRemoveButtonNormalBackgroundBrush" Color="#00000000" />
+                <SolidColorBrush x:Key="TabItemRemoveButtonNormalBorderBrush" Color="#FFFFFFFF" />
+                <SolidColorBrush x:Key="TabItemRemoveButtonNormalForegroundBrush" Color="#FF8f949b" />
+                <SolidColorBrush x:Key="TabItemRemoveButtonHoverBackgroundBrush" Color="#FFc13535" />
+                <SolidColorBrush x:Key="TabItemRemoveButtonHoverForegroundBrush" Color="#FFf9ebeb" />
+                <SolidColorBrush x:Key="TabItemRemoveButtonPressedBackgroundBrush" Color="#FF431e20" />
+                <SolidColorBrush x:Key="TabItemRemoveButtonPressedBorderBrush" Color="#FF110033" />
+                <SolidColorBrush x:Key="TabItemRemoveButtonPressedForegroundBrush" Color="#FFf9ebeb" />
+            </Style.Resources>
+            <Setter Property="UIElement.SnapsToDevicePixels" Value="False" />
+            <Setter Property="FrameworkElement.Cursor" Value="Hand" />
+            <Setter Property="UIElement.Focusable" Value="False" />
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid Background="#00FFFFFF">
+                            <Ellipse Name="backgroundEllipse" />
+                            <Path Name="ButtonPath" Margin="3" Stroke="{StaticResource TabItemRemoveButtonNormalForegroundBrush}" StrokeThickness="1.5" StrokeStartLineCap="Square" StrokeEndLineCap="Square" Stretch="Uniform" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <Path.Data>
+                                    <PathGeometry>
+                                        <PathGeometry.Figures>
+                                            <PathFigure StartPoint="0,0">
+                                                <LineSegment Point="25,25" />
+                                            </PathFigure>
+                                            <PathFigure StartPoint="0,25">
+                                                <LineSegment Point="25,0" />
+                                            </PathFigure>
+                                        </PathGeometry.Figures>
+                                    </PathGeometry>
+                                </Path.Data>
+                            </Path>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="UIElement.IsMouseOver" Value="True">
+                                <Setter TargetName="backgroundEllipse" Value="{StaticResource TabItemRemoveButtonHoverBackgroundBrush}" Property="Shape.Fill" />
+                                <Setter TargetName="ButtonPath" Value="{StaticResource TabItemRemoveButtonHoverForegroundBrush}" Property="Shape.Stroke" />
+                            </Trigger>
+                            <Trigger Property="UIElement.IsEnabled" Value="False">
+                                <Setter Property="UIElement.Visibility" Value="Collapsed" />
+                            </Trigger>
+                            <Trigger Property="ButtonBase.IsPressed" Value="True">
+                                <Setter TargetName="backgroundEllipse" Value="{StaticResource TabItemRemoveButtonPressedBackgroundBrush}" Property="Shape.Fill" />
+                                <Setter TargetName="backgroundEllipse" Value="{StaticResource TabItemRemoveButtonPressedBorderBrush}" Property="Shape.Stroke" />
+                                <Setter TargetName="ButtonPath" Value="{StaticResource TabItemRemoveButtonPressedForegroundBrush}" Property="Shape.Stroke" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
 
     <Border Padding="10">
@@ -26,7 +79,7 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
-
+            
             <!--left Top Right Bottom-->
             <WrapPanel Grid.Row="0" Margin="0 0 0 10" VerticalAlignment="Bottom">
                 
@@ -86,10 +139,13 @@
                                         Content="Remove" 
                                         Click="RemoveColumn_Click" 
                                         Height="20"
-                                        Width="60"
+                                        Width="20"
                                         Margin="5"
                                         HorizontalAlignment="Right"
-                                        VerticalAlignment="Center"/>
+                                        VerticalAlignment="Center"
+                                        ToolTip="Remove Column"
+                                        Style="{StaticResource RemoveButtonStyle}">
+                                </Button>
                                 <!--<sapv:ExpressionTextBox Grid.Column="1"
                                                 HorizontalAlignment="Right"
                                                 Margin="0 0 40 5"

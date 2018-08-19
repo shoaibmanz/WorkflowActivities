@@ -6,15 +6,18 @@ using System.ComponentModel;
 using System.Windows;
 using System.Linq;
 using DataTableActivities;
+using System.Activities.Presentation.Model;
 
 namespace DataTableActivities.Designer
 {
     // Interaction logic for RemoveDuplicateValuesDesigner.xaml
     public partial class RemoveDuplicateValuesDesigner
     {
+
         public RemoveDuplicateValuesDesigner()
         {
             InitializeComponent();
+            
         }
 
         private void AddColumnsButton_Click(object sender, RoutedEventArgs e)
@@ -22,7 +25,7 @@ namespace DataTableActivities.Designer
            
             ObservableCollection<Pair<ArgumentType, string>> Columns = new ObservableCollection<Pair<ArgumentType, string>>((List<Pair<ArgumentType, string>>)ModelItem.Properties["Columns"].ComputedValue);
 
-            var NewWindow = new RemoveValuesNewColumnsDialog(Columns);
+            var NewWindow = new RemoveValuesNewColumnsDialog(ModelItem, Columns);
 
             NewWindow.ShowDialog();
 

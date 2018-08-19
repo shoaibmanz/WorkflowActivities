@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Activities.Presentation.Model;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
@@ -31,10 +32,19 @@ namespace DataTableActivities.Designer
             get; set;
         }
 
-        public RemoveValuesNewColumnsDialog(ObservableCollection<Pair<ArgumentType, string>> Columns)
+        public ModelItem OwnerActivity
+        {
+            get;
+            set;
+        }
+
+        
+        public RemoveValuesNewColumnsDialog(ModelItem ownerActivity, ObservableCollection<Pair<ArgumentType, string>> Columns)
         {
             this.Columns = Columns;
             this.SaveChanges = false;
+            this.OwnerActivity = OwnerActivity;
+
             InitializeComponent();
             
             this.lbInputs.DataContext = this.Columns;
