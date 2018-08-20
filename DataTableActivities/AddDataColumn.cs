@@ -30,6 +30,13 @@ namespace DataTableActivities
         public AddDataColumn()
         {
             this.dataColumn = new DataColumn();
+
+            this.dataColumn.DataType = typeof(String);
+
+            this.dataColumn.MaxLength = -1;
+            this.dataColumn.AllowDBNull = true;
+            this.dataColumn.Unique = false;
+            this.dataColumn.AutoIncrement = false;
         }
 
         protected override void Execute(CodeActivityContext context)

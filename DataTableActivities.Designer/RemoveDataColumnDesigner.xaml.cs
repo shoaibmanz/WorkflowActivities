@@ -20,18 +20,38 @@ namespace DataTableActivities.Designer
     // Interaction logic for RemoveDataColumnDesigner.xaml
     public partial class RemoveDataColumnDesigner
     {
+
+        public String SelectedItem
+        {
+            get; set;
+        }
+
         public RemoveDataColumnDesigner()
         {
+            this.SelectedItem = "Column Name";
             InitializeComponent();
 
-            cbChoices.SelectionChanged += ComboBox_SelectionChanged;
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ModelItem.Properties["ColumnIndex"].SetValue(null);
-            ModelItem.Properties["ColumnName"].SetValue(null);
-            ModelItem.Properties["ColumnObject"].SetValue(null);
+            ComboBox cb = sender as ComboBox;
+
+            // name object index
+            switch (cb.SelectedIndex) {
+                case 0:
+                    ModelItem.Properties["ColumnObject"].SetValue(null);
+                    ModelItem.Properties["ColumnIndex"].SetValue(null);
+                    break;
+                case 1:
+                    ModelItem.Properties["ColumnIndex"].SetValue(null);
+                    ModelItem.Properties["ColumnName"].SetValue(null);
+                    break;
+                case 2:
+                    ModelItem.Properties["ColumnName"].SetValue(null);
+                    ModelItem.Properties["ColumnObject"].SetValue(null);
+                    break;
+            }
         }
 
         public static void RegisterMetadata(AttributeTableBuilder builder)

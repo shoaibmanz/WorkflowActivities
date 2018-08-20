@@ -23,29 +23,27 @@ namespace DataTableActivities.Designer
     /// </summary>
     public partial class NewColumnDialog : INotifyPropertyChanged
     {
+        private Type _dateType;
+
+        private bool _autoIncrement;
+        
         public event PropertyChangedEventHandler PropertyChanged;
 
         public string ColumnName
         {
-            get
-            {
-                return this.dataColumn.ColumnName;
-            }
-            set
-            {
-                this.dataColumn.ColumnName = value;
-            }
+            get;
+            set;
         }
 
         public Type DateType
         {
             get
             {
-                return this.dataColumn.DataType;
+                return this._dateType;
             }
             set
             {
-                this.dataColumn.DataType = value;
+                this._dateType = value;
                 this.OnNotifyPropertyChanged("DateType");
                 this.OnNotifyPropertyChanged("IsStringColumn");
                 this.OnNotifyPropertyChanged("CanAutoIncrement");
@@ -54,27 +52,33 @@ namespace DataTableActivities.Designer
 
         public bool AllowDBNull
         {
-            get
-            {
-                return this.dataColumn.AllowDBNull;
-            }
-            set
-            {
-                this.dataColumn.AllowDBNull = value;
-            }
+            get;
+            set;
         }
 
         public bool AutoIncrement
         {
             get
             {
-                return this.dataColumn.AutoIncrement;
+                return this._autoIncrement;
             }
             set
             {
-                this.dataColumn.AutoIncrement = value;
+                this._autoIncrement = value;
                 this.OnNotifyPropertyChanged("AutoIncrement");
             }
+        }
+
+        public long AutoIncrementStep
+        {
+            get;
+            set;
+        }
+
+        public long AutoIncrementSeed
+        {
+            get;
+            set;
         }
 
         public bool CanAutoIncrement
@@ -87,45 +91,20 @@ namespace DataTableActivities.Designer
 
         public bool Unique
         {
-            get
-            {
-                return this.dataColumn.Unique;
-            }
-            set
-            {
-                this.dataColumn.Unique = value;
-            }
+            get;
+            set;
         }
 
         public object DefaultValue
         {
-            get
-            {
-                return this.dataColumn.DefaultValue;
-            }
-            set
-            {
-                if (this.dataColumn.DataType.Equals(value.GetType()))
-                {
-                    MessageBox.Show("Error: Invalid default value type with this column type");
-                }
-                else
-                {
-                    this.dataColumn.DefaultValue = value;
-                }
-            }
+            get;
+            set;
         }
 
         public int MaxLength
         {
-            get
-            {
-                return this.dataColumn.MaxLength;
-            }
-            set
-            {
-
-            }
+            get;
+            set;
         }
 
         public bool IsStringColumn
@@ -161,9 +140,17 @@ namespace DataTableActivities.Designer
         {
 
             this.dataColumn = dataColumn;
-            this.MaxLength = 0;
-            this.DateType = typeof(string);
-            this.AllowDBNull = true;
+
+            this.ColumnName = dataColumn.ColumnName;
+            this.DateType = dataColumn.DataType;
+            this.AllowDBNull = dataColumn.AllowDBNull;
+            this.AutoIncrement = dataColumn.AutoIncrement;
+            this.Unique = dataColumn.Unique;
+            this.DefaultValue = dataColumn.DefaultValue;
+            this.MaxLength = dataColumn.MaxLength;
+            this.AutoIncrementSeed = dataColumn.AutoIncrementSeed;
+            this.AutoIncrementStep = dataColumn.AutoIncrementStep;
+
             this.InitializeComponent();            
             this.TypePresenter.Context = ownerActivity.GetEditingContext();
         }
@@ -180,24 +167,38 @@ namespace DataTableActivities.Designer
             {
                 if (string.IsNullOrWhiteSpace(this.ColumnName))
                 {
-                    throw new ArgumentException("Please enter a column name");
+                    throw new ArgumentException("Please enter a column name!");
+                }
+                dataColumn.ColumnName = this.ColumnName;
+                dataColumn.DataType = this.DateType;
+                dataColumn.AllowDBNull = this.AllowDBNull;
+                dataColumn.Unique = this.Unique;
+                
+                if (this.CanAutoIncrement)
+                {
+                    dataColumn.AutoIncrement = this.AutoIncrement;
+                    dataColumn.AutoIncrementSeed = this.AutoIncrementSeed;
+                    dataColumn.AutoIncrementStep = this.AutoIncrementStep;
                 }
                 else if (this.DefaultValue != null && !string.IsNullOrWhiteSpace(this.DefaultValue.ToString()))
                 {
                     dataColumn.DefaultValue = Convert.ChangeType(this.DefaultValue, this.DateType);
                 }
-
+                if (this.DateType.Equals(typeof(string)))
+                {
+                    dataColumn.MaxLength = this.MaxLength;
+                }
                 if (dataColumn.DataType != this.DateType)
                 {
-                    throw new InvalidOperationException("Column options incompatible with desired date type");
+                    throw new InvalidOperationException("Invalid type for given set of options.");
                 }
 
                 this.SaveChanges = true;
                 this.Close();
             }
-            catch (Exception arg_E3_0)
+            catch (Exception ex)
             {
-                System.Windows.MessageBox.Show(arg_E3_0.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Hand);
+                System.Windows.MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Hand);
             }
         }
 
