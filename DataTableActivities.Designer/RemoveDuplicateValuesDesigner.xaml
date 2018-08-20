@@ -7,24 +7,25 @@
     xmlns:d="clr-namespace:System.Data;assembly=System.Data">
 
     <sap:ActivityDesigner.Resources>
-        <sapc:ArgumentToExpressionConverter x:Key="ArgumentToExpressionConverter"/>
-    </sap:ActivityDesigner.Resources>
-    
-    <Grid>
-
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
         
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
+        <sapc:ArgumentToExpressionConverter x:Key="ArgumentToExpressionConverter"/>
+        
+        <DataTemplate x:Key="Expanded">
+            <Grid>
 
-        <TextBlock Grid.Row="0" Text="Data Table" FontSize="12" Margin="3"/>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
 
-        <sapv:ExpressionTextBox Grid.Row="1"  
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row="0" Text="Data Table" FontSize="12" Margin="3"/>
+
+                <sapv:ExpressionTextBox Grid.Row="1"  
                                 HintText="Data Table"                                
                                 Expression="{Binding Path=ModelItem.DataTable, Converter={StaticResource ArgumentToExpressionConverter}, ConverterParameter=InOut}"
                                 UseLocationExpression="True"
@@ -34,6 +35,33 @@
                                 Padding="2"
                                 Margin="3"/>
 
-        <Button Width="85" Height="18" Grid.Row="1" Content="Add Columns.." Grid.Column="1" Click="AddColumnsButton_Click" />
-    </Grid>
+                <Button Width="85" Height="18" Grid.Row="1" Content="Add Columns.." Grid.Column="1" Click="AddColumnsButton_Click" />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="Collapsed">
+            <sapv:ExpressionTextBox Grid.Row="1"  
+                                HintText="Data Table"                                
+                                Expression="{Binding Path=ModelItem.DataTable, Converter={StaticResource ArgumentToExpressionConverter}, ConverterParameter=InOut}"
+                                UseLocationExpression="True"
+                                ExpressionType="d:DataTable"
+                                OwnerActivity="{Binding Path=ModelItem}"  
+                                MaxLines="1"
+                                Padding="2"
+                                Margin="3"/>
+        </DataTemplate>
+
+        <Style x:Key="ExpandOrCollapsedStyle" TargetType="{x:Type ContentPresenter}">
+            <Setter Property="ContentTemplate" Value="{DynamicResource Expanded}"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=ShowExpanded}" Value="false">
+                    <Setter Property="ContentTemplate" Value="{DynamicResource Collapsed}"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+    </sap:ActivityDesigner.Resources>
+
+    <ContentPresenter Style="{DynamicResource ExpandOrCollapsedStyle}" Content="{Binding}" />
 </sap:ActivityDesigner>
+   
