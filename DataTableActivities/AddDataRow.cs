@@ -10,11 +10,26 @@ namespace DataTableActivities
     public class AddDataRow : CodeActivity
     {
         [Browsable(false)]
-        public string Selected
+        public int Selected
         {
             get;
             set;
         }
+
+        [Browsable(false)]
+        public string[] Options 
+        {
+            get;
+            set;
+        } = { "Data Row", "Array Row" };
+
+
+
+        public AddDataRow()
+        {
+            this.Selected = 0;
+        }
+
 
         [RequiredArgument]
         [Category("Input")]
@@ -22,7 +37,7 @@ namespace DataTableActivities
         {
             get;
             set;
-        }
+        } 
 
         [RequiredArgument]
         [Category("Input")]
@@ -41,25 +56,25 @@ namespace DataTableActivities
             set;
         }
 
-        public AddDataRow()
-        {
-            this.Selected = "Data Row";
-        }
+
+        
 
         protected override void Execute(CodeActivityContext context)
         {
             DataTable dataTable = this.DataTable.Get(context);
-
+            
             if (this.DataTable == null)
                 return;
 
-            if (Selected == "Data Row")
+            switch (Selected)
             {
-                dataTable.Rows.Add(this.DataRowObject.Get(context));
-            }
-            else
-            {
-                dataTable.Rows.Add(this.ArrayRow.Get(context));
+                case 0:
+                    dataTable.Rows.Add(this.DataRowObject.Get(context));
+                    break;
+
+                case 1:
+                    dataTable.Rows.Add(this.ArrayRow.Get(context));
+                    break;
             }
 
             this.DataTable.Set(context, dataTable);

@@ -33,27 +33,6 @@ namespace DataTableActivities.Designer
 
         }
 
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            ComboBox cb = sender as ComboBox;
-
-            // name object index
-            switch (cb.SelectedIndex) {
-                case 0:
-                    ModelItem.Properties["ColumnObject"].SetValue(null);
-                    ModelItem.Properties["ColumnIndex"].SetValue(null);
-                    break;
-                case 1:
-                    ModelItem.Properties["ColumnIndex"].SetValue(null);
-                    ModelItem.Properties["ColumnName"].SetValue(null);
-                    break;
-                case 2:
-                    ModelItem.Properties["ColumnName"].SetValue(null);
-                    ModelItem.Properties["ColumnObject"].SetValue(null);
-                    break;
-            }
-        }
-
         public static void RegisterMetadata(AttributeTableBuilder builder)
         {
             builder.AddCustomAttributes(typeof(RemoveDataColumn), new DesignerAttribute(typeof(RemoveDataColumnDesigner)));

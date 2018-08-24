@@ -12,12 +12,6 @@
         <sapc:ArgumentToExpressionConverter x:Key="ArgumentToExpressionConverter"/>
         <a:OptionsToVisibilityConverter x:Key="OptionsToVisiblityConverter"/>
 
-        <x:Array x:Key="Options" Type="sys:String" 
-            xmlns:sys="clr-namespace:System;assembly=mscorlib">
-            <sys:String>Data Row</sys:String>
-            <sys:String>Item Array</sys:String>
-        </x:Array>
-        
         <DataTemplate x:Key="Expanded">
             <Grid>
                 <Grid.RowDefinitions>
@@ -44,10 +38,9 @@
                 <ComboBox Grid.Column="1" 
                           Grid.Row="0" 
                           Margin="7" 
-                          SelectedItem="{Binding Path=ModelItem.Selected, Mode=TwoWay}" 
+                          SelectedIndex="{Binding Path=ModelItem.Selected, Mode=TwoWay}" 
                           Name="cbChoices"
-                          SelectionChanged="cbChoices_SelectionChanged"
-                          ItemsSource="{StaticResource Options}"/>
+                          ItemsSource="{Binding Path=ModelItem.Options}"/>
 
 
 
@@ -79,12 +72,10 @@
                 </Grid.ColumnDefinitions>
 
                 <ComboBox Grid.Column="0" 
-                          Grid.Row="0" 
-                          Margin="10" 
-                          SelectedItem="{Binding Path=ModelItem.Selected, Mode=TwoWay}" 
+                          Margin="7" 
+                          SelectedIndex="{Binding Path=ModelItem.Selected, Mode=TwoWay}" 
                           Name="cbChoices"
-                          SelectionChanged="cbChoices_SelectionChanged"
-                          ItemsSource="{StaticResource Options}"/>
+                          ItemsSource="{Binding Path=ModelItem.Options}"/>
 
                 <sapv:ExpressionTextBox Grid.Column="1" Margin="10 10 10 10" 
                                 HintText="Data Row" 

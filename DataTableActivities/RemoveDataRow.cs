@@ -11,6 +11,28 @@ namespace DataTableActivities
 
     public class RemoveDataRow : CodeActivity
     {
+        [Browsable(false)]
+        public int Selected
+        {
+            get;
+            set;
+        }
+
+        [Browsable(false)]
+        public string[] Options
+        {
+            get;
+            set;
+        } = { "Data Row", "Row Index" };
+
+
+
+        public RemoveDataRow()
+        {
+            this.Selected = 0;
+        }
+
+
         [RequiredArgument]
         [Category("Input")]
         public InOutArgument<DataTable> DataTable
@@ -40,15 +62,17 @@ namespace DataTableActivities
         protected override void Execute(CodeActivityContext context)
         {
             DataTable dataTable = this.DataTable.Get(context);
-            DataRow dataRow = this.RowObject.Get(context);
-            if (dataRow != null)
+
+            switch (this.Selected)
             {
-                dataTable.Rows.Remove(dataRow);
+                case 0:
+                    dataTable.Rows.Remove(this.RowObject.Get(context));
+                    break;
+                case 1:
+                    dataTable.Rows.RemoveAt(this.RowIndex.Get(context));
+                    break;
             }
-            else
-            {
-                dataTable.Rows.RemoveAt(this.RowIndex.Get(context));
-            }
+
             this.DataTable.Set(context, dataTable);
         }
     }

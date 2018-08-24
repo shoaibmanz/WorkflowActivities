@@ -8,21 +8,45 @@
 
     <sap:ActivityDesigner.Resources>
         <sapc:ArgumentToExpressionConverter x:Key="ArgumentToExpressionConverter"/>
-    </sap:ActivityDesigner.Resources>
+        <DataTemplate x:Key="Expanded">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
 
+                <TextBlock  Margin="10 0 0 0" Grid.Row="0" Grid.Column="0"  Text="Data Table"/>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-
-        <TextBlock  Margin="10 0 0 0" Grid.Row="0" Grid.Column="0"  Text="Data Table"/>
-
-        <sapv:ExpressionTextBox Margin="10 10 10 10" Grid.Row="1" HintText="Data Table" 
+                <sapv:ExpressionTextBox Margin="10 10 10 10" Grid.Row="1" HintText="Data Table" 
                                 Expression="{Binding Path=ModelItem.DataTable, Mode=TwoWay, Converter={StaticResource ArgumentToExpressionConverter}, ConverterParameter=InOut }" 
                                 OwnerActivity="{Binding Path=ModelItem}"  MaxLines="1" 
                                 ExpressionType="d:DataTable"
                                 UseLocationExpression="True"/>
-    </Grid>
+            </Grid>
+        </DataTemplate>
+
+        
+        <DataTemplate x:Key="Collapsed">
+            <sapv:ExpressionTextBox Margin="10 10 10 10" HintText="Data Table" 
+                                Expression="{Binding Path=ModelItem.DataTable, Mode=TwoWay, Converter={StaticResource ArgumentToExpressionConverter}, ConverterParameter=InOut }" 
+                                OwnerActivity="{Binding Path=ModelItem}"  MaxLines="1" 
+                                ExpressionType="d:DataTable"
+                                UseLocationExpression="True"/>
+        </DataTemplate>
+
+        <Style x:Key="ExpandOrCollapsedStyle" TargetType="{x:Type ContentPresenter}">
+            <Setter Property="ContentTemplate" Value="{DynamicResource Expanded}"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=ShowExpanded}" Value="false">
+                    <Setter Property="ContentTemplate" Value="{DynamicResource Collapsed}"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+    </sap:ActivityDesigner.Resources>
+
+    <ContentPresenter Style="{DynamicResource ExpandOrCollapsedStyle}" Content="{Binding}" />
+
+
+
 </sap:ActivityDesigner>

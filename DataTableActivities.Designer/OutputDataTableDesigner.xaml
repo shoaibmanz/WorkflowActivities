@@ -22,11 +22,29 @@
 
         <TextBlock  Margin="10 0 0 0" Grid.Row="0" Grid.Column="0"  Text="Data Table"/>
 
-        <sapv:ExpressionTextBox Margin="10 5 10 5" Grid.Row="1" HintText="Data Table" 
+        <DockPanel Grid.Row="1">
+            <sapv:ExpressionTextBox Margin="10 5 10 5"  HintText="Data Table"  DockPanel.Dock="Left"
                                 Expression="{Binding Path=ModelItem.DataTable, Mode=TwoWay, Converter={StaticResource ArgumentToExpressionConverter}, ConverterParameter=In }" 
                                 OwnerActivity="{Binding Path=ModelItem}"  MaxLines="1" 
                                 ExpressionType="d:DataTable"/>
 
+
+            <WrapPanel  DockPanel.Dock="Right" HorizontalAlignment="Right">
+                <TextBlock Text="Delim" Margin="10 5 5 5"/>
+
+                <TextBox MaxLines="1" 
+                     Width="30" 
+                     Margin="5 5 10 5" 
+                     ToolTip="Character seperating columns and row items" 
+                     MaxLength="1"    
+                         
+                        Text="{Binding Path=ModelItem.Delimitator}"/>
+            </WrapPanel>
+            
+            
+            
+        </DockPanel>
+        
         <TextBlock Grid.Row="2" Text="Result" Margin="10 0 0 0"/>
 
         <sapv:ExpressionTextBox Margin="10 5 10 5" Grid.Row="3" HintText="Result" 

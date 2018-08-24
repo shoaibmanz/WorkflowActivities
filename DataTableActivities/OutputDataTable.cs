@@ -10,8 +10,8 @@ namespace DataTableActivities
 
     public sealed class OutputDataTable : CodeActivity
     {
-        [Category("Delimitator")]
-        public InArgument<Nullable<char>> Delimitator
+        [Browsable(false)]
+        public Char Delimitator
         {
             get;
             set;
@@ -32,25 +32,17 @@ namespace DataTableActivities
             set;
         }
 
+        public OutputDataTable()
+        {
+            this.Delimitator = ',';
+        }
+
 
         protected override void Execute(CodeActivityContext context)
         {
 
             DataTable dataTable = this.DataTable.Get(context);
-            Nullable<char> Delim = Delimitator.Get(context);
-
             
-
-            char deliminator = new char();
-
-            if (Delim.HasValue)
-            {
-                deliminator = Delim.Value;
-            } else
-            {
-                deliminator = ',';
-            }
-
             if (dataTable == null)
             {
                 return;
@@ -65,7 +57,7 @@ namespace DataTableActivities
                 string text = Column.ColumnName.ToString();
                 if (!flag)
                 {
-                    stringBuilder.Append(deliminator);
+                    stringBuilder.Append(Delimitator);
                 }
                 if (text.IndexOfAny(new char[]
                 {
@@ -83,14 +75,13 @@ namespace DataTableActivities
             foreach (DataRow row in dataTable.Rows)
             {
                 flag = true;
-                object[] itemArray = row.ItemArray;
-                for (int i = 0; i < itemArray.Length; i++)
+                for (int i = 0; i < row.ItemArray.Length; i++)
                 {
-                    object obj = itemArray[i];
+                    object obj = row.ItemArray[i];
                     string text = (obj == null) ? string.Empty : obj.ToString();
                     if (!flag)
                     {
-                        stringBuilder.Append(deliminator);
+                        stringBuilder.Append(Delimitator);
                     }
                     if (text.IndexOfAny(new char[]
                     {

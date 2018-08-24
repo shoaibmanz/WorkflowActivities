@@ -30,14 +30,5 @@ namespace DataTableActivities.Designer
             builder.AddCustomAttributes(typeof(AddDataRow), new DesignerAttribute(typeof(AddDataRowDesigner)));
             builder.AddCustomAttributes(typeof(AddDataRow), new DescriptionAttribute("Removes a Column from a Data Table"));
         }
-
-        private void cbChoices_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-            if ((string)ModelItem.Properties["Selected"].ComputedValue == "Data Row")               
-                ModelItem.Properties["ArrayRow"].SetValue(null);
-            else
-                ModelItem.Properties["DataRowObject"].SetValue(null);
-        }
     }
 }

@@ -7,6 +7,28 @@ namespace DataTableActivities
 
     public class RemoveDataColumn : CodeActivity
     {
+        [Browsable(false)]
+        public int Selected
+        {
+            get;
+            set;
+        }
+
+        [Browsable(false)]
+        public string[] Options
+        {
+            get;
+            set;
+        } = { "Column Name", "Column Index", "Column Object" };
+
+
+
+        public RemoveDataColumn()
+        {
+            this.Selected = 0;
+        }
+
+
         [RequiredArgument]
         [Category("Input")]
         public InOutArgument<DataTable> DataTable
@@ -38,24 +60,27 @@ namespace DataTableActivities
             set;
         }
 
+
         protected override void Execute(CodeActivityContext context)
         {
             
             DataTable dataTable = this.DataTable.Get(context);
-            string value = this.ColumnName.Get(context);
-            DataColumn dataColumn = this.ColumnObject.Get(context);
-            if (dataColumn != null)
+
+            switch (this.Selected)
             {
-                dataTable.Columns.Remove(dataColumn);
+                case 0:
+                    dataTable.Columns.Remove(this.ColumnName.Get(context));
+                    break;
+
+                case 1:
+                    dataTable.Columns.RemoveAt(this.ColumnIndex.Get(context));
+                    break;
+                case 2:
+                    dataTable.Columns.Remove(this.ColumnObject.Get(context));
+                    break;
+
             }
-            else if (string.IsNullOrWhiteSpace(value))
-            {
-                dataTable.Columns.RemoveAt(this.ColumnIndex.Get(context));
-            }
-            else
-            {
-                dataTable.Columns.Remove(this.ColumnName.Get(context));
-            }
+
             this.DataTable.Set(context, dataTable);
         }
     }

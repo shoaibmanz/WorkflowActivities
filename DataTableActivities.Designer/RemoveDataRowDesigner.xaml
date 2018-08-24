@@ -12,21 +12,21 @@
     <sap:ActivityDesigner.Resources>
         <sapc:ArgumentToExpressionConverter x:Key="ArgumentToExpressionConverter"/>
         <a:OptionsToVisibilityConverter x:Key="OptionsToVisiblityConverter"/>
-    </sap:ActivityDesigner.Resources>
+        
+        <DataTemplate x:Key="Expanded">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-
-        <TextBlock  Margin="5" Grid.Column="0"  Grid.Row="0" Text="Data Table" />
-        <sapv:ExpressionTextBox Grid.Column="0" Margin="10 10 10 10" Grid.Row="1" HintText="Data Table" 
+                <TextBlock  Margin="5" Grid.Column="0"  Grid.Row="0" Text="Data Table" />
+                <sapv:ExpressionTextBox Grid.Column="0" Margin="10 10 10 10" Grid.Row="1" HintText="Data Table" 
                                 Expression="{Binding Path=ModelItem.DataTable, Mode=TwoWay, Converter={StaticResource ArgumentToExpressionConverter}, ConverterParameter=InOut}" 
                                 OwnerActivity="{Binding Path=ModelItem}"  
                                 UseLocationExpression="True"
@@ -34,29 +34,79 @@
                                 />
 
 
-        <ComboBox Grid.Column="1" Grid.Row="0" Margin="5" SelectedIndex="0" Name="cbChoices">
-            <ComboBoxItem>Row Index</ComboBoxItem>
-            <ComboBoxItem>Row Object</ComboBoxItem>
-        </ComboBox>
+                <ComboBox Grid.Column="1" 
+                  Grid.Row="0" 
+                  Margin="5" 
+                  SelectedIndex="{Binding Path=ModelItem.Selected}"
+                  ItemsSource="{Binding Path=ModelItem.Options}"
+                  Name="cbChoices"/>
 
-        <sapv:ExpressionTextBox Name="RowObjExpression" Grid.Column="1" Grid.Row="1" Margin="10 10 10 10" 
-                                HintText="Row object" 
+                <sapv:ExpressionTextBox Name="RowObjExpression" Grid.Column="1" Grid.Row="1" Margin="10 10 10 10" 
+                                HintText="Row Object" 
                                 Expression="{Binding Path=ModelItem.RowObject, Mode=TwoWay, Converter={StaticResource ArgumentToExpressionConverter}, ConverterParameter=In}" 
                                 OwnerActivity="{Binding Path=ModelItem}" MaxLines="1" 
                                 ExpressionType="d:DataRow"
-                                Visibility="{Binding ElementName=cbChoices, Path=SelectedIndex, Converter={StaticResource OptionsToVisiblityConverter}, ConverterParameter=1}"
+                                Visibility="{Binding ElementName=cbChoices, Path=SelectedIndex, Converter={StaticResource OptionsToVisiblityConverter}, ConverterParameter=0}"
                                 />
 
 
 
-        <sapv:ExpressionTextBox Name="RowIndexExpression" Grid.Column="1" Grid.Row="1" Margin="10 10 10 10" 
+                <sapv:ExpressionTextBox Name="RowIndexExpression" Grid.Column="1" Grid.Row="1" Margin="10 10 10 10" 
                                 HintText="Row Index" 
                                 Expression="{Binding Path=ModelItem.RowIndex, Mode=TwoWay, Converter={StaticResource ArgumentToExpressionConverter}, ConverterParameter=In}" 
                                 OwnerActivity="{Binding Path=ModelItem}"  MaxLines="1" 
                                 ExpressionType="s:Int32"
+                                Visibility="{Binding ElementName=cbChoices, Path=SelectedIndex, Converter={StaticResource OptionsToVisiblityConverter}, ConverterParameter=1}"
+                                />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="Collapsed">
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <ComboBox Grid.Column="0" 
+                  Grid.Row="0" 
+                  Margin="10" 
+                  SelectedIndex="{Binding Path=ModelItem.Selected}"
+                  ItemsSource="{Binding Path=ModelItem.Options}"
+                  Name="cbChoices"/>
+
+                <sapv:ExpressionTextBox Name="RowObjExpression" Grid.Column="1" Grid.Row="1" Margin="10 10 10 10" 
+                                HintText="Row Object" 
+                                Expression="{Binding Path=ModelItem.RowObject, Mode=TwoWay, Converter={StaticResource ArgumentToExpressionConverter}, ConverterParameter=In}" 
+                                OwnerActivity="{Binding Path=ModelItem}" MaxLines="1" 
+                                ExpressionType="d:DataRow"
                                 Visibility="{Binding ElementName=cbChoices, Path=SelectedIndex, Converter={StaticResource OptionsToVisiblityConverter}, ConverterParameter=0}"
                                 />
-    </Grid>
 
 
+
+                <sapv:ExpressionTextBox Name="RowIndexExpression" Grid.Column="1" Grid.Row="1" Margin="10 10 10 10" 
+                                HintText="Row Index" 
+                                Expression="{Binding Path=ModelItem.RowIndex, Mode=TwoWay, Converter={StaticResource ArgumentToExpressionConverter}, ConverterParameter=In}" 
+                                OwnerActivity="{Binding Path=ModelItem}"  MaxLines="1" 
+                                ExpressionType="s:Int32"
+                                Visibility="{Binding ElementName=cbChoices, Path=SelectedIndex, Converter={StaticResource OptionsToVisiblityConverter}, ConverterParameter=1}"
+                                />
+
+            </Grid>
+        </DataTemplate>
+
+        <Style x:Key="ExpandOrCollapsedStyle" TargetType="{x:Type ContentPresenter}">
+            <Setter Property="ContentTemplate" Value="{DynamicResource Expanded}"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=ShowExpanded}" Value="false">
+                    <Setter Property="ContentTemplate" Value="{DynamicResource Collapsed}"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </sap:ActivityDesigner.Resources>
+
+    <ContentPresenter Style="{DynamicResource ExpandOrCollapsedStyle}" Content="{Binding}" />
+    
 </sap:ActivityDesigner>

@@ -12,13 +12,6 @@
         <sapc:ArgumentToExpressionConverter x:Key="ArgumentToExpressionConverter"/>
         <a:OptionsToVisibilityConverter x:Key="OptionsToVisiblityConverter"/>
 
-        <x:Array x:Key="Options" Type="sys:String" 
-            xmlns:sys="clr-namespace:System;assembly=mscorlib">
-            <sys:String>Column Name</sys:String>
-            <sys:String>Column Object</sys:String>
-            <sys:String>Column Index</sys:String>
-        </x:Array>
-
         <DataTemplate x:Key="Expanded">
             <Grid>
                 <Grid.RowDefinitions>
@@ -42,10 +35,9 @@
 
                 <ComboBox Grid.Column="1" 
                           Grid.Row="0" Margin="5" 
-                          ItemsSource="{StaticResource Options}"
-                          SelectedItem="{Binding SelectedItem}"
-                          Name="cbChoices" 
-                          SelectionChanged="ComboBox_SelectionChanged">
+                          ItemsSource="{Binding Path=ModelItem.Options}"
+                          SelectedIndex="{Binding ModelItem.Selected}"
+                          Name="cbChoices">
 
                 </ComboBox>
 
@@ -58,22 +50,23 @@
                                 />
 
 
-
-                <sapv:ExpressionTextBox Name="ColObjExpression" Grid.Column="1" Grid.Row="1" Margin="10 10 10 10" 
-                                HintText="Column Object" 
-                                Expression="{Binding Path=ModelItem.ColumnObject, Mode=TwoWay, Converter={StaticResource ArgumentToExpressionConverter}, ConverterParameter=In}" 
-                                OwnerActivity="{Binding Path=ModelItem}"  MaxLines="1" 
-                                ExpressionType="d:DataColumn"
-                                Visibility="{Binding ElementName=cbChoices, Path=SelectedIndex, Converter={StaticResource OptionsToVisiblityConverter}, ConverterParameter=1}"
-                                />
-
                 <sapv:ExpressionTextBox Name="ColIndexExpression" Grid.Column="1" Grid.Row="1" Margin="10 10 10 10" 
                                 HintText="Index" 
                                 Expression="{Binding Path=ModelItem.ColumnIndex, Mode=TwoWay, Converter={StaticResource ArgumentToExpressionConverter}, ConverterParameter=In}" 
                                 OwnerActivity="{Binding Path=ModelItem}"  MaxLines="1" 
                                 ExpressionType="s:Int32"
+                                Visibility="{Binding ElementName=cbChoices, Path=SelectedIndex, Converter={StaticResource OptionsToVisiblityConverter}, ConverterParameter=1}"
+                                />
+                
+                <sapv:ExpressionTextBox Name="ColObjExpression" Grid.Column="1" Grid.Row="1" Margin="10 10 10 10" 
+                                HintText="Column Object" 
+                                Expression="{Binding Path=ModelItem.ColumnObject, Mode=TwoWay, Converter={StaticResource ArgumentToExpressionConverter}, ConverterParameter=In}" 
+                                OwnerActivity="{Binding Path=ModelItem}"  MaxLines="1" 
+                                ExpressionType="d:DataColumn"
                                 Visibility="{Binding ElementName=cbChoices, Path=SelectedIndex, Converter={StaticResource OptionsToVisiblityConverter}, ConverterParameter=2}"
                                 />
+
+
 
             </Grid>
         </DataTemplate>
@@ -87,11 +80,10 @@
                 </Grid.ColumnDefinitions>
 
                 <ComboBox Grid.Column="0" 
-                          Margin="10 10 0 10"
-                          Name="cbChoices" 
-                          ItemsSource="{StaticResource Options}"
-                          SelectedItem="{Binding SelectedItem}"
-                          SelectionChanged="ComboBox_SelectionChanged">
+                          Grid.Row="0" Margin="10" 
+                          ItemsSource="{Binding Path=ModelItem.Options}"
+                          SelectedIndex="{Binding ModelItem.Selected}"
+                          Name="cbChoices">
                 </ComboBox>
                 
                 <sapv:ExpressionTextBox Name="ColNameExpression" Grid.Column="1" Margin="10 10 10 10" 
@@ -102,21 +94,23 @@
                                 Visibility="{Binding ElementName=cbChoices, Path=SelectedIndex, Converter={StaticResource OptionsToVisiblityConverter}, ConverterParameter=0}"
                                 />
 
-                <sapv:ExpressionTextBox Name="ColObjExpression" Grid.Column="1" Margin="10 10 10 10" 
-                                HintText="Column Object" 
-                                Expression="{Binding Path=ModelItem.ColumnObject, Mode=TwoWay, Converter={StaticResource ArgumentToExpressionConverter}, ConverterParameter=In}" 
-                                OwnerActivity="{Binding Path=ModelItem}"  MaxLines="1" 
-                                ExpressionType="d:DataColumn"
-                                Visibility="{Binding ElementName=cbChoices, Path=SelectedIndex, Converter={StaticResource OptionsToVisiblityConverter}, ConverterParameter=1}"
-                                />
-
                 <sapv:ExpressionTextBox Name="ColIndexExpression" Grid.Column="1" Margin="10 10 10 10" 
                                 HintText="Index" 
                                 Expression="{Binding Path=ModelItem.ColumnIndex, Mode=TwoWay, Converter={StaticResource ArgumentToExpressionConverter}, ConverterParameter=In}" 
                                 OwnerActivity="{Binding Path=ModelItem}"  MaxLines="1" 
                                 ExpressionType="s:Int32"
+                                Visibility="{Binding ElementName=cbChoices, Path=SelectedIndex, Converter={StaticResource OptionsToVisiblityConverter}, ConverterParameter=1}"
+                                />
+                
+                <sapv:ExpressionTextBox Name="ColObjExpression" Grid.Column="1" Margin="10 10 10 10" 
+                                HintText="Column Object" 
+                                Expression="{Binding Path=ModelItem.ColumnObject, Mode=TwoWay, Converter={StaticResource ArgumentToExpressionConverter}, ConverterParameter=In}" 
+                                OwnerActivity="{Binding Path=ModelItem}"  MaxLines="1" 
+                                ExpressionType="d:DataColumn"
                                 Visibility="{Binding ElementName=cbChoices, Path=SelectedIndex, Converter={StaticResource OptionsToVisiblityConverter}, ConverterParameter=2}"
                                 />
+
+
             </Grid>
         </DataTemplate>
 

@@ -22,14 +22,6 @@ namespace DataTableActivities.Designer
         public RemoveDataRowDesigner()
         {
             InitializeComponent();
-            cbChoices.SelectionChanged += ComboBox_SelectionChanged;
-        }
-
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-            ModelItem.Properties["RowIndex"].SetValue(null);            
-            ModelItem.Properties["RowObject"].SetValue(null);
         }
 
         public static void RegisterMetadata(AttributeTableBuilder builder)
