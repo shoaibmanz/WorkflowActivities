@@ -20,15 +20,9 @@ namespace DataTableActivities.Designer
     // Interaction logic for RemoveDataColumnDesigner.xaml
     public partial class RemoveDataColumnDesigner
     {
-
-        public String SelectedItem
-        {
-            get; set;
-        }
-
         public RemoveDataColumnDesigner()
         {
-            this.SelectedItem = "Column Name";
+            
             InitializeComponent();
 
         }

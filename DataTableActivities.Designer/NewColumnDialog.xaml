@@ -133,6 +133,7 @@
                 <TextBox ToolTip="Start your Increment from this seed"
                          Visibility="{Binding CanAutoIncrement, Converter={StaticResource BoolToVisibilityConverter}}"
                          Text="{Binding AutoIncrementSeed, Mode=TwoWay}"
+                         PreviewTextInput="TextBox_PreviewTextInput"
                          />
                 
                 <TextBlock Text="Step"
@@ -141,6 +142,7 @@
                 <TextBox ToolTip="Step to Increment by for every row"
                          Visibility="{Binding CanAutoIncrement, Converter={StaticResource BoolToVisibilityConverter}}"
                          Text="{Binding AutoIncrementStep, Mode=TwoWay}"
+                         PreviewTextInput="TextBox_PreviewTextInput"
                          />
 
                 

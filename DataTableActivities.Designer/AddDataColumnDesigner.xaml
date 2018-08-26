@@ -4,14 +4,13 @@
     xmlns:sap="clr-namespace:System.Activities.Presentation;assembly=System.Activities.Presentation"
     xmlns:sapv="clr-namespace:System.Activities.Presentation.View;assembly=System.Activities.Presentation"
     xmlns:sapc="clr-namespace:System.Activities.Presentation.Converters;assembly=System.Activities.Presentation"
-    xmlns:a="clr-namespace:DataTableActivities.Designer"
-    xmlns:d="clr-namespace:System.Data;assembly=System.Data"
-    xmlns:s="clr-namespace:System;assembly=mscorlib">
+    xmlns:d="clr-namespace:System.Data;assembly=System.Data">
 
     <sap:ActivityDesigner.Resources>
-        
+
+
         <sapc:ArgumentToExpressionConverter x:Key="ArgumentToExpressionConverter"/>
-        
+
         <DataTemplate x:Key="Expanded">
             <Grid>
                 <Grid.RowDefinitions>
@@ -29,7 +28,7 @@
                                         HintText="Data Table" 
                                         Expression="{Binding Path=ModelItem.DataTable, Mode=TwoWay, Converter={StaticResource ArgumentToExpressionConverter}, ConverterParameter=InOut}" 
                                         OwnerActivity="{Binding Path=ModelItem}"    
-                                        ExpressionType="d:DataTable"
+                                        ExpressionType="{x:Type d:DataTable}"
                                         UseLocationExpression="True"
                                         MaxLines="1"
                                         />
@@ -40,14 +39,18 @@
         </DataTemplate>
 
         <DataTemplate x:Key="Collapsed">
-            <sapv:ExpressionTextBox Grid.Column="0" Margin="10 10 10 10" Grid.Row="1"
+
+            <Grid>
+                <sapv:ExpressionTextBox Margin="10 10 10 10"
                                         HintText="Data Table"
                                         Expression="{Binding Path=ModelItem.DataTable, Mode=TwoWay, Converter={StaticResource ArgumentToExpressionConverter}, ConverterParameter=InOut}" 
                                         OwnerActivity="{Binding Path=ModelItem}"
-                                        ExpressionType="d:DataTable"
+                                        ExpressionType="{x:Type d:DataTable}"
                                         UseLocationExpression="True"
                                         MaxLines="1"
                                         />
+            </Grid>
+
         </DataTemplate>
 
         <Style x:Key="ExpandOrCollapsedStyle" TargetType="{x:Type ContentPresenter}">
@@ -58,7 +61,7 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-        
+
     </sap:ActivityDesigner.Resources>
 
     <ContentPresenter Style="{DynamicResource ExpandOrCollapsedStyle}" Content="{Binding}" />

@@ -7,9 +7,8 @@
     xmlns:d="clr-namespace:System.Data;assembly=System.Data">
 
     <sap:ActivityDesigner.Resources>
-        
         <sapc:ArgumentToExpressionConverter x:Key="ArgumentToExpressionConverter"/>
-        
+
         <DataTemplate x:Key="Expanded">
             <Grid>
 

@@ -46,7 +46,7 @@ namespace DataTableActivities.Designer
             this.OwnerActivity = OwnerActivity;
 
             InitializeComponent();
-            
+                        
             this.lbInputs.DataContext = this.Columns;
         }
 

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Activities;
 using System.Data;
 using System.ComponentModel;
@@ -11,12 +8,7 @@ namespace DataTableActivities
 
     public class AddDataColumn : CodeActivity
     {
-        [Browsable(false)]
-        public DataColumn dataColumn
-        {
-            get;
-            set;
-        }
+        public DataColumn dataColumn;
 
         [RequiredArgument]
         [Category("Input")]
@@ -25,7 +17,6 @@ namespace DataTableActivities
             get;
             set;
         }
-
 
         public AddDataColumn()
         {

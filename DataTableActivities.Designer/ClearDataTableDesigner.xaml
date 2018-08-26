@@ -27,11 +27,15 @@
 
         
         <DataTemplate x:Key="Collapsed">
-            <sapv:ExpressionTextBox Margin="10 10 10 10" HintText="Data Table" 
+
+            <Grid>
+                <sapv:ExpressionTextBox Margin="10 10 10 10" HintText="Data Table" 
                                 Expression="{Binding Path=ModelItem.DataTable, Mode=TwoWay, Converter={StaticResource ArgumentToExpressionConverter}, ConverterParameter=InOut }" 
                                 OwnerActivity="{Binding Path=ModelItem}"  MaxLines="1" 
                                 ExpressionType="d:DataTable"
                                 UseLocationExpression="True"/>
+            </Grid>
+            
         </DataTemplate>
 
         <Style x:Key="ExpandOrCollapsedStyle" TargetType="{x:Type ContentPresenter}">

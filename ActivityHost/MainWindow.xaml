@@ -7,7 +7,7 @@
         xmlns:sapt="clr-namespace:System.Activities.Presentation.Toolbox;assembly=System.Activities.Presentation"  
         xmlns:sys="clr-namespace:System;assembly=mscorlib"  
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="600">
+        Title="MainWindow" Height="550" Width="900">
     <Window.Resources>
         <sys:String x:Key="AssemblyName">System.Activities, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35</sys:String>
     </Window.Resources>
